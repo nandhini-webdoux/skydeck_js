@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyDeck Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <h2>🌤️ SkyDeck</h2>
+
+            <div class="search-wrapper">
+                <input
+                    type="search"
+                    id="city-search"
+                    placeholder="Search city..."
+                    autocomplete="off"
+                >
+                <div id="search-suggestions" class="suggestions"></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="unit-buttons">
+                <button id="celsius-btn" class="active">°C</button>
+                <button id="fahrenheit-btn">°F</button>
+            </div>
+
+            <span id="last-updated">Not updated yet</span>
+
+            <button id="refresh-btn">↻ Refresh all</button>
+        </div>
+    </nav>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="dashboard">
+
+        <!-- LEFT SECTION -->
+        <section class="left-section">
+
+            <div class="heading-section">
+                <div>
+                    <h2>Your cities</h2>
+                    <p>Live weather conditions for your cities</p>
+                </div>
+
+                <span id="city-count">0 / 6 cities</span>
+            </div>
+
+            <!-- FILTER AND SORT -->
+            <div class="filter-bar">
+
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="pinned">Pinned</button>
+                    <button class="filter-btn" data-filter="rain">Rain expected</button>
+                </div>
+
+                <div class="sort-section">
+                    <label for="sort-select">Sort by</label>
+
+                    <select id="sort-select">
+                        <option value="temperature">Temperature</option>
+                        <option value="name">Name</option>
+                        <option value="wind">Wind</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- WEATHER CARDS -->
+            <section id="city-cards" class="city-cards">
+                <!-- JavaScript adds city cards here -->
+            </section>
+
+            <!-- COMPARE CITIES -->
+            <section class="compare-section">
+
+                <div class="compare-heading">
+                    <div>
+                        <h2>Compare cities</h2>
+                        <p>Select up to 3 cities to compare</p>
+                    </div>
+
+                    <button id="compare-pick-btn">
+                        + Pick up to 3
+                    </button>
+                </div>
+
+                <div id="compare-picker" class="compare-picker" hidden>
+                    <!-- JavaScript adds city checkboxes here -->
+                </div>
+
+                <div class="table-container">
+                    <table id="compare-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th colspan="3">Select cities to compare</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td colspan="4" class="empty-message">
+                                    Choose cities using the button above.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+        </section>
+
+        <!-- RIGHT SECTION -->
+        <aside class="right-section">
+
+            <!-- OVERVIEW -->
+            <section class="overview-section">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Overview</h2>
+                        <p id="overview-count">0 cities loaded</p>
+                    </div>
+                </div>
+
+                <div class="overview-cards">
+
+                    <div class="overview-card">
+                        <p>Hottest</p>
+                        <h2 id="hottest-value">--</h2>
+                        <span id="hottest-city">--</span>
+                    </div>
+
+                    <div class="overview-card">
+                        <p>Coldest</p>
+                        <h2 id="coldest-value">--</h2>
+                        <span id="coldest-city">--</span>
+                    </div>
+
+                    <div class="overview-card">
+                        <p>Average</p>
+                        <h2 id="average-value">--</h2>
+                        <span>All cities</span>
+                    </div>
+
+                    <div class="overview-card">
+                        <p>Rain today</p>
+                        <h2 id="rain-value">--</h2>
+                        <span id="rain-cities">Of 0 cities</span>
+                    </div>
+
+                </div>
+
+                <div class="weather-summary">
+                    <h3>Weather conditions</h3>
+
+                    <div class="summary-row">
+                        <span>Cloudy</span>
+                        <div class="progress">
+                            <div id="cloudy-bar"></div>
+                        </div>
+                        <strong id="cloudy-count">0</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Rain</span>
+                        <div class="progress">
+                            <div id="rain-bar"></div>
+                        </div>
+                        <strong id="rain-count">0</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Clear</span>
+                        <div class="progress">
+                            <div id="clear-bar"></div>
+                        </div>
+                        <strong id="clear-count">0</strong>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- TRIP NOTES -->
+            <section class="trip-section">
+
+                <h2>Trip notes</h2>
+                <p>Save your travel plans</p>
+
+                <form id="trip-form">
+
+                    <label for="note-city">City</label>
+                    <select id="note-city" required>
+                        <option value="">Select a city</option>
+                    </select>
+
+                    <label for="travel-date">Travel date</label>
+                    <input type="date" id="travel-date" required>
+
+                    <label for="trip-note">
+                        Note
+                        <span id="note-counter">0 / 200</span>
+                    </label>
+
+                    <textarea
+                        id="trip-note"
+                        placeholder="Write your trip note..."
+                        minlength="10"
+                        maxlength="200"
+                        required
+                    ></textarea>
+
+                    <label for="budget">Budget (₹) <small>Optional</small></label>
+                    <input
+                        type="number"
+                        id="budget"
+                        placeholder="Enter budget"
+                        min="0"
+                    >
+
+                    <button type="submit" class="save-note-btn">
+                        Save note
+                    </button>
+
+                </form>
+
+                <div id="notes-list" class="notes-list">
+                    <!-- Saved notes appear here -->
+                </div>
+
+            </section>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-section">
+        <p>Reference design · Built with HTML, CSS and JavaScript</p>
+
+        <p>
+            Weather data by
+            <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">
+                Open-Meteo.com
+            </a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
